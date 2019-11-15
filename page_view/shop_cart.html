@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title></title>
+		<title>我的购物车</title>
 		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
 		<meta content="yes" name="apple-mobile-web-app-capable" />
 		<meta content="black" name="apple-mobile-web-app-status-bar-style" />
@@ -16,23 +16,70 @@
 
 		<section class="g-flexview">
 
-			<header class="m-navbar">
+			<!-- <header class="m-navbar">
 				<a href="#" class="navbar-item"><i class="back-ico"></i></a>
 				<div class="navbar-center"><span class="navbar-title">商品详情</span></div>
-			</header>
+			</header> -->
 
 			<div class="g-scrollview">
 				
+				
+				<div class="m-cell" style="margin-top: 5px;">
+				    <div class="cell-item">
+				        <div class="cell-left">商品名称1</div>
+				        <label class="cell-right">
+				        	<span class="m-spinner" style="" data-ydui-spinner="{input: '.J_Input', add: '.J_Add', minus: '.J_Del'}">
+				        		<!-- 添加data-ydui-spinner属性并添加参数即可 -->
+				        		<a href="javascript:;" class="J_Del"></a>
+				        		<input type="text" class="J_Input" placeholder="" />
+				        		<a href="javascript:;" class="J_Add"></a>
+				        	</span>
+				        </label>
+				    </div>
+				    <div class="cell-item">
+				        <div class="cell-left">商品名称2</div>
+				        <label class="cell-right">
+				        	<span class="m-spinner" style="" data-ydui-spinner="{input: '.J_Input', add: '.J_Add', minus: '.J_Del'}">
+				        		<!-- 添加data-ydui-spinner属性并添加参数即可 -->
+				        		<a href="javascript:;" class="J_Del"></a>
+				        		<input type="text" class="J_Input" placeholder="" />
+				        		<a href="javascript:;" class="J_Add"></a>
+				        	</span>
+				        </label>
+				    </div>
+					<div class="cell-item">
+					    <div class="cell-left">商品名称3</div>
+					    <label class="cell-right">
+					    	<span class="m-spinner" style="" data-ydui-spinner="{input: '.J_Input', add: '.J_Add', minus: '.J_Del'}">
+					    		<!-- 添加data-ydui-spinner属性并添加参数即可 -->
+					    		<a href="javascript:;" class="J_Del"></a>
+					    		<input type="text" class="J_Input" placeholder="" />
+					    		<a href="javascript:;" class="J_Add"></a>
+					    	</span>
+					    </label>
+					</div>
+					<div class="cell-item">
+					    <div class="cell-left">商品名称4</div>
+					    <label class="cell-right">
+					    	<span class="m-spinner" style="" data-ydui-spinner="{input: '.J_Input', add: '.J_Add', minus: '.J_Del'}">
+					    		<!-- 添加data-ydui-spinner属性并添加参数即可 -->
+					    		<a href="javascript:;" class="J_Del"></a>
+					    		<input type="text" class="J_Input" placeholder="" />
+					    		<a href="javascript:;" class="J_Add"></a>
+					    	</span>
+					    </label>
+					</div>
+				</div>
 			</div>
 
 			<footer class="m-tabbar">
-				<a href="#" class="tabbar-item tabbar-active">
+				<a href="#" class="tabbar-item ">
 					<span class="tabbar-icon">
 						<i class="icon-order"></i>
 					</span>
 					<span class="tabbar-txt">菜单</span>
 				</a>
-				<a href="#" class="tabbar-item">
+				<a href="#" class="tabbar-item tabbar-active">
 					<span class="tabbar-icon">
 						<i class="icon-shopcart-outline"></i>
 					</span>
@@ -60,13 +107,7 @@
 			//     });
 			// }(jQuery);
 			$(function() {
-				//view loading 完成就隐藏 spinner
-				$(".m-spinner").hide();
-				//当用户点击 加入购物车按钮 则显示spinner
-				$(".addCart").click(function() {
-					$(".addCart").hide();
-					$(".m-spinner").show();
-				});
+				
 			})
 		</script>
 	</body>
