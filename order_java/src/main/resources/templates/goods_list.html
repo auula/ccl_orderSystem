@@ -8,9 +8,9 @@
 		<meta content="black" name="apple-mobile-web-app-status-bar-style" />
 		<meta content="telephone=no" name="format-detection" />
 		<!-- 引入YDUI样式 -->
-		<link rel="stylesheet" href="css/ydui.css" />
+		<link rel="stylesheet" th:href="@{/static/css/ydui.css}" />
 		<!-- 引入YDUI自适应解决方案类库 -->
-		<script src="js/ydui.flexible.js"></script>
+		<script th:src="@{/static/js/ydui.flexible.js}"></script>
 	</head>
 	<body>
 
@@ -171,9 +171,9 @@
 
 
 		<!-- 引入jQuery 2.0+ -->
-		<script src="js/jquery.min.js"></script>
+		<script th:src="@{/static/js/jquery.min.js}"></script>
 		<!-- 引入YDUI脚本 -->
-		<script src="js/ydui.js"></script>
+		<script th:src="@{/static/js/ydui.js}"></script>
 		<script>
 			// !function ($) {
 			//     $('#J_Btn').on('click', function () {
