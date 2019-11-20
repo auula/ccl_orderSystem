@@ -1,4 +1,4 @@
-package me.ponyo.order.controller;
+package me.ponyo.order.controllers;
 
 /**
  * @author: Ding <br/>
