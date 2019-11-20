@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Notes: 程序主启动类
  * <p>
  *     Created with IDEA. Date：2019年11月20日22:59:27
- *     <a href="https://github.com/JDode">to see Github</a>
+ *     <a href="https://github.com/YooDing">Github Home Page</a>
  * </p>
  */
 @SpringBootApplication
