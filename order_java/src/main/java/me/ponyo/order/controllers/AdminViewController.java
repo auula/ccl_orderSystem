@@ -4,9 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * @author: Ding <br/>
- * @version: V1.0
- * @Notes: 管理员视图表示层
+ * @ Author: Ding <br/>
+ * @ Version: V1.0
+ * @ Notes: 管理员视图表示层
  * <p>
  *     Created with IDEA. Date：2019年11月20日23:24:23
  *     本类负责管理员前端的template页面渲染响应给客户端

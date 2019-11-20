@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * @author: Ding <br/>
- * @version: V1.0
- * @Notes: 点餐主界面表示层
+ * @ Author: Ding <br/>
+ * @ Version: V1.0
+ * @ Notes: 点餐主界面表示层
  * <p>
  *     Created with IDEA. Date：2019年11月20日23:15:22
  *     本类负责前端的template页面渲染响应给客户端
