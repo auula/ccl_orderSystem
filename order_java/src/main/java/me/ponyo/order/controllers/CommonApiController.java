@@ -1,5 +1,8 @@
 package me.ponyo.order.controllers;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  * @author: Ding <br/>
  * @version: V1.0
@@ -10,5 +13,8 @@ package me.ponyo.order.controllers;
  *     <a href="https://github.com/YooDing">Github Home Page</a>
  * </p>
  */
+@RestController
+@RequestMapping(value = "/api_v1")
 public class CommonApiController {
+
 }

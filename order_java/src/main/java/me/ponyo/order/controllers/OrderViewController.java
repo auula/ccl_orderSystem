@@ -1,6 +1,7 @@
 package me.ponyo.order.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -17,4 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/view")
 public class OrderViewController {
 
+    //response goods list to browser
+    @GetMapping(value = {"/meus","/"})
+    public String meus(){
+        return "goods_list";
+    }
 }
