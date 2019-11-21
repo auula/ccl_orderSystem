@@ -1,0 +1,80 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>CunCunLi Order</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- 引入YDUI样式 -->
+    <link rel="stylesheet" th:href="@{/static/css/ydui.css}"/>
+    <!-- 引入YDUI自适应解决方案类库 -->
+    <script th:src="@{/static/js/ydui.flexible.js}"></script>
+    <style type="text/css">
+        .cell-item-common {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            /* position: ABSOLUTE; */
+            padding-left: 0.24rem;
+            overflow: hidden;
+        }
+
+    </style>
+</head>
+<body style="background-color: #FFFFFF;height: 80%;">
+<div class="m-cell" style="margin-top: 2.25rem;margin-bottom: 5%;">
+    <div class="cell-left">
+        <p style="margin: auto;font-size: 24px;">用户登录</p>
+    </div>
+    <div class="cell-item">
+        <div class="cell-left">账 号 &nbsp;:&nbsp;</div>
+        <div class="cell-right"><input type="number" pattern="[0-9]*" class="cell-input account" placeholder="请输入你的账号"
+                                       autocomplete="off"/></div>
+    </div>
+    <div class="cell-item">
+        <div class="cell-left">密 码 &nbsp;:&nbsp;</div>
+        <div class="cell-right"><input type="password" class="cell-input password" placeholder="请输入你的密码"
+                                       autocomplete="off"/></div>
+    </div>
+</div>
+<div class="cell-item-common">
+    <div class="cell-left" style="color:dodgerblue;">
+        <p><a href="#">注册</a>/<a href="">忘记密码</a></p>
+    </div>
+</div>
+<button type="button" style="width: 90%;margin: auto;margin-top: 5%;" class="btn-block btn-primary">登 录</button>
+<script th:src="@{/static/js/md5.js}"></script>
+<!-- 引入jQuery 2.0+ -->
+<script th:src="@{/static/js/jquery.min.js}"></script>
+<!-- 引入YDUI脚本 -->
+<script th:src="@{/static/js/ydui.js}"></script>
+
+<script>
+
+    //限制PC设备和大屏设备访问  只能移动设备访问
+    $(function () {
+        if (!YDUI.device.isMobile) {
+            window.location.replace("/error")
+            return;
+        }
+        $('.btn-block').click(function () {
+            if ($('.account').val() == "" || $('.password').val() == "") {
+                YDUI.dialog.toast('账号或者密码不能为空！', 'none', 2000);
+                return;
+            }
+            const user_form = { //封装登陆表单对象
+                account : $('.account').val(),
+                password : asEncrypt($('.password').val())//将密码加密传输 防止中间人攻击窥探明文
+            }
+            //test
+            alert(JSON.stringify(user_form))
+        })
+    })
+    function asEncrypt(pass) {
+        return hex_md5(pass);
+    }
+</script>
+</body>
+</html>

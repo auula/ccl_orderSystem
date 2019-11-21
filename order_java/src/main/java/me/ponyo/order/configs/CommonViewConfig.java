@@ -1,5 +1,9 @@
 package me.ponyo.order.configs;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
 /**
  * @ Author: Ding <br/>
  * @ Version: V1.0
@@ -9,5 +13,14 @@ package me.ponyo.order.configs;
  * <a href="https://github.com/YooDing">Github Home Page</a>
  * </p>
  */
-public class CommonViewConfig {
+@Configuration
+public class CommonViewConfig extends WebMvcConfigurerAdapter {
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/sign").setViewName("sign");
+        registry.addViewController("/").setViewName("sign");
+        registry.addViewController("signUp").setViewName("signUp");
+        registry.addViewController("/error").setViewName("error");
+        super.addViewControllers(registry);
+    }
 }
