@@ -35,6 +35,11 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
             <version>5.1.38</version>
         </dependency>
         <!-- 引入阿里巴巴JSON处理工具包 -->

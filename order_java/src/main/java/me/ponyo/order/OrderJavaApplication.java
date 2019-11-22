@@ -17,7 +17,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class OrderJavaApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(OrderJavaApplication.class, args);
+
     }
 
 }

@@ -65,12 +65,12 @@
                 return;
             }
             const user_form = { //封装登陆表单对象
-                account: $('.account').val(),
-                password: asEncrypt($('.password').val())//将密码加密传输 防止中间人攻击窥探明文
+                userAccount: $('.account').val(),
+                userPassword: asEncrypt($('.password').val())//将密码加密传输 防止中间人攻击窥探明文
             }
             //test
             alert(JSON.stringify(user_form))
-        })
+        });
     })
 
     function asEncrypt(pass) {

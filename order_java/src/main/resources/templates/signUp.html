@@ -55,6 +55,34 @@
 <script th:src="@{/static/js/jquery.min.js}"></script>
 <!-- 引入YDUI脚本 -->
 <script th:src="@{/static/js/ydui.js}"></script>
-<script th:href="@{/static/js/common.js}"></script>
+<script>
+    //限制PC设备和大屏设备访问  只能移动设备访问
+    $(function () {
+
+        if (!YDUI.device.isMobile) {
+            window.location.replace("/error");
+            return;
+        }
+
+        $('.btn-block').click(function () {
+            if ($('.account').val() == "" || $('.password').val() == "") {
+                YDUI.dialog.toast('账号或者密码不能为空！', 'none', 2000);
+                return;
+            }
+            if ($('.password').val() != $('.password-bak').val()) {
+                YDUI.dialog.toast('2次密码不一致！', 'none', 2000);
+                return;
+            }
+            const user_form = { //封装登陆表单对象
+                userAccount: $('.account').val(),
+                userPassword: $('.password').val()
+            };
+            //test
+            alert(JSON.stringify(user_form))
+        })
+    });
+
+
+</script>
 </body>
 </html>

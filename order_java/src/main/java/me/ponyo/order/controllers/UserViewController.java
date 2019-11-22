@@ -18,9 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/view")
 public class UserViewController {
 
+
     //response goods list to browser
+
     @GetMapping(value = {"/meus","/"})
     public String meus(){
+
+
         return "goods_list";
     }
 }
