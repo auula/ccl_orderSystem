@@ -26,57 +26,35 @@
 <body style="background-color: #FFFFFF;height: 80%;">
 <div class="m-cell" style="margin-top: 2.25rem;margin-bottom: 5%;">
     <div class="cell-left">
-        <p style="font-size: 24px;margin: auto auto 10px;">用户登录</p>
+        <p style="font-size: 24px;margin: auto auto 10px;">用户注册</p>
     </div>
     <div class="cell-item">
-        <div class="cell-left">账 号 :&nbsp;</div>
+        <div class="cell-left">注册账号&nbsp;:&nbsp;</div>
         <div class="cell-right"><input type="number" pattern="[0-9]*" class="cell-input account" placeholder="请输入你的账号"
                                        autocomplete="off"/></div>
     </div>
     <div class="cell-item">
-        <div class="cell-left">密 码 &nbsp;:&nbsp;</div>
+        <div class="cell-left">初始密码 &nbsp;:&nbsp;</div>
         <div class="cell-right"><input type="password" class="cell-input password" placeholder="请输入你的密码"
+                                       autocomplete="off"/></div>
+    </div>
+    <div class="cell-item">
+        <div class="cell-left">确认密码 &nbsp;:&nbsp;</div>
+        <div class="cell-right"><input type="password" class="cell-input password-bak" placeholder="请输入你的密码"
                                        autocomplete="off"/></div>
     </div>
 </div>
 <div class="cell-item-common">
-    <div class="cell-left" style="color:#14a5ff;">
-        <p><a href="signUp">注册</a>&nbsp;/&nbsp;<a href="javascript:YDUI.dialog.alert('功能未开放!');">忘记密码</a></p>
+    <div class="cell-left" style="color:#0fa5ff;">
+        <p><a href="sign">登录</a>&nbsp;/&nbsp;<a href="javascript:YDUI.dialog.alert('功能未开放!');">忘记密码</a></p>
     </div>
 </div>
-<button type="button" style="width: 90%;margin: auto;margin-top: 5%;" class="btn-block btn-primary">登 录</button>
+<button type="button" style="width: 90%;margin: auto;margin-top: 5%;" class="btn-block btn-primary">注 册</button>
 <script th:src="@{/static/js/md5.js}"></script>
 <!-- 引入jQuery 2.0+ -->
 <script th:src="@{/static/js/jquery.min.js}"></script>
 <!-- 引入YDUI脚本 -->
 <script th:src="@{/static/js/ydui.js}"></script>
-<script>
-    //限制PC设备和大屏设备访问  只能移动设备访问
-    $(function () {
-
-        if (!YDUI.device.isMobile) {
-            window.location.replace("/error");
-            return;
-        }
-
-        $('.btn-block').click(function () {
-            if ($('.account').val() == "" || $('.password').val() == "") {
-                YDUI.dialog.toast('账号或者密码不能为空！', 'none', 2000);
-                return;
-            }
-            const user_form = { //封装登陆表单对象
-                account: $('.account').val(),
-                password: asEncrypt($('.password').val())//将密码加密传输 防止中间人攻击窥探明文
-            }
-            //test
-            alert(JSON.stringify(user_form))
-        })
-    })
-
-    function asEncrypt(pass) {
-        return hex_md5(pass);
-    }
-
-</script>
+<script th:href="@{/static/js/common.js}"></script>
 </body>
 </html>
