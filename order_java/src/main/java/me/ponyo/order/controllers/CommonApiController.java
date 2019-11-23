@@ -2,17 +2,18 @@ package me.ponyo.order.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import me.ponyo.order.models.BaseResult;
+import me.ponyo.order.models.ProductInfo;
 import me.ponyo.order.models.UserInfo;
+import me.ponyo.order.services.ProductService;
 import me.ponyo.order.services.UserService;
 import me.ponyo.order.utils.RuleUtil;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @ Author: Ding <br/>
@@ -31,6 +32,9 @@ public class CommonApiController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ProductService productService;
 
     @Autowired
     HttpServletRequest request;
@@ -76,5 +80,15 @@ public class CommonApiController {
             return new BaseResult().build(200, "success");
         }
         return new BaseResult().build(500, "登录失败!请检查账号和密码!");
+    }
+
+    @GetMapping("/product")
+    public BaseResult putProduct() {
+        List<ProductInfo> allProductData = productService.getAllProductData();
+        for (ProductInfo allProductDatum : allProductData) {
+            System.out.println(allProductData.toString());
+        }
+        return  allProductData == null ? new BaseResult().build(500, "暂无商品数据~请稍后重试！") :
+                new BaseResult().build(200,"success").add("ProductList",allProductData);
     }
 }

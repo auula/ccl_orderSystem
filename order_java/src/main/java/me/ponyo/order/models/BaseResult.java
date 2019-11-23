@@ -14,7 +14,7 @@ import java.util.Map;
  * </p>
  */
 public class BaseResult implements Serializable {
-    
+
     private Integer status;
     private String message;
     private Map<String, Object> data;

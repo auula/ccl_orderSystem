@@ -1,4 +1,9 @@
 package me.ponyo.order.services;
+
+import me.ponyo.order.models.ProductInfo;
+
+import java.util.List;
+
 /**
  * @ Author: Ding <br/>
  * @ Version: V1.0
@@ -8,6 +13,8 @@ package me.ponyo.order.services;
  *     <a href="https://github.com/YooDing">Github Home Page</a>
  * </p>
  */
-public interface GoodsService {
+public interface ProductService {
 
+    //获取所有商品信息
+    List<ProductInfo> getAllProductData();
 }
