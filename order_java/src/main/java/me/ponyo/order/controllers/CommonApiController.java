@@ -25,7 +25,7 @@ import java.util.List;
  * <a href="https://github.com/YooDing">Github Home Page</a>
  * </p>
  */
-
+@Slf4j
 @RestController
 @RequestMapping(value = "/api_v1")
 public class CommonApiController {
@@ -85,9 +85,9 @@ public class CommonApiController {
     @GetMapping("/product")
     public BaseResult putProduct() {
         List<ProductInfo> allProductData = productService.getAllProductData();
-        for (ProductInfo allProductDatum : allProductData) {
-            System.out.println(allProductData.toString());
-        }
+//        for (ProductInfo allProductDatum : allProductData) {
+//            log.info(allProductData.toString());
+//        }
         return  allProductData == null ? new BaseResult().build(500, "暂无商品数据~请稍后重试！") :
                 new BaseResult().build(200,"success").add("ProductList",allProductData);
     }
