@@ -21,10 +21,8 @@ public class UserViewController {
 
     //response goods list to browser
 
-    @GetMapping(value = {"/meus","/"})
-    public String meus(){
-
-
+    @GetMapping(value = {"/menus","/"})
+    public String menus(){
         return "goods_list";
     }
 }

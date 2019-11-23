@@ -1,5 +1,6 @@
 package me.ponyo.order.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import me.ponyo.order.models.BaseResult;
 import me.ponyo.order.models.UserInfo;
 import me.ponyo.order.services.UserService;
@@ -8,8 +9,10 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * @ Author: Ding <br/>
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * <a href="https://github.com/YooDing">Github Home Page</a>
  * </p>
  */
+
 @RestController
 @RequestMapping(value = "/api_v1")
 public class CommonApiController {
@@ -28,8 +32,13 @@ public class CommonApiController {
     @Autowired
     UserService userService;
 
-    @PostMapping(value = {"/sign"})
-    public BaseResult sign(UserInfo user) {
+    @Autowired
+    HttpServletRequest request;
+    @Autowired
+    HttpSession session;
+
+    @PostMapping(value = {"/sign_up"})
+    public BaseResult userSignUp(UserInfo user) {
 
         if (Strings.isBlank(user.getUserPassword())) {
             return new BaseResult().build(500, "密码不能空!");
@@ -43,8 +52,29 @@ public class CommonApiController {
         if (!RuleUtil.isPassword(user.getUserPassword())) {
             return new BaseResult().build(500, "密码不符合规范!以字母开头，长度在6~18之间，只能包含字母、数字和下划线!");
         }
-        return userService.saveUser(user) > 0 ?
+        if (userService.checkAccount(user.getUserAccount()) != null) {
+            return new BaseResult().build(500, "账号已被注册!换一个试试~");
+        }
+        return userService.register(user) > 0 ?
                 new BaseResult().build(200, "新账号:" + user.getUserAccount() + ";注册成功!")
                 : new BaseResult().build(500, "注册失败!服务器忙碌请稍后重试~");
+    }
+
+    @PostMapping("/sign")
+    public BaseResult userSign(UserInfo user) {
+
+        if (Strings.isBlank(user.getUserPassword())) {
+            return new BaseResult().build(500, "密码不能空!");
+        }
+        if (Strings.isBlank(user.getUserAccount())) {
+            return new BaseResult().build(500, "账号不能空!");
+        }
+        if (
+                userService.login(user) != null
+        ) {
+            session.setAttribute("u", user);
+            return new BaseResult().build(200, "success");
+        }
+        return new BaseResult().build(500, "登录失败!请检查账号和密码!");
     }
 }

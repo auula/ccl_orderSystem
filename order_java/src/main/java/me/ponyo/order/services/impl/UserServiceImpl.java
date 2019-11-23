@@ -1,5 +1,6 @@
 package me.ponyo.order.services.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import me.ponyo.order.models.UserInfo;
 import me.ponyo.order.repositorys.UserRepository;
 import me.ponyo.order.services.UserService;
@@ -20,6 +21,7 @@ import java.util.List;
  * <a href="https://github.com/YooDing">Github Home Page</a>
  * </p>
  */
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -27,7 +29,7 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
-    public int saveUser(UserInfo user) {
+    public int register(UserInfo user) {
         //数据初始化
         if (user.getUserStats() == null ) {
             user.setUserStats(Byte.parseByte("1"));
@@ -35,12 +37,26 @@ public class UserServiceImpl implements UserService {
         if (user.getUpdated() == null ) {
             user.setUpdated(DateUtil.asDateToTimestamp());
         }
+        log.info("registerDATA:"+user.toString());
         return userRepository.addUser(user.getUserAccount(), EncryptionUtil.encrypted(user.getUserPassword()), user.getUserStats(), user.getUpdated());
     }
 
     @Override
-    public UserInfo findUserByAccountAndPassword(UserInfo user) {
-        return null;
+    public UserInfo login(UserInfo user) {
+        // userInfo notNull
+        if(user.getUserAccount() == null || user.getUserPassword() == null){
+            return null;
+        }
+        log.info("loginDATA:"+user.toString());
+        return userRepository.findUserInfoByAccountAndPassword(user);
+    }
+
+    @Override
+    public UserInfo checkAccount(String account) {
+        if (Strings.isBlank(account)) {
+            return null;
+        }
+        return userRepository.findUserInfoByAccount(account);
     }
 
     @Override

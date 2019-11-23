@@ -69,7 +69,23 @@
                 userPassword: asEncrypt($('.password').val())//将密码加密传输 防止中间人攻击窥探明文
             }
             //test
-            alert(JSON.stringify(user_form))
+            //alert(JSON.stringify(user_form))
+            YDUI.dialog.loading.open('登录中请稍后~');
+            $.post('/api_v1/sign',user_form,function(result){
+                //console.log(result);
+                switch (result.status) {
+                    case 200:
+                        setTimeout(function () {
+                            YDUI.dialog.loading.close();/* 移除loading */
+                            window.location.replace("/view/menus")
+                        }, 2000)
+                        break;
+                    case 500:
+                        YDUI.dialog.loading.close();
+                        YDUI.dialog.toast(result.message, 'none', 2000);
+                        break;
+                }
+            });
         });
     })
 

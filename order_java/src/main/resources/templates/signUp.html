@@ -55,7 +55,9 @@
 <script th:src="@{/static/js/jquery.min.js}"></script>
 <!-- 引入YDUI脚本 -->
 <script th:src="@{/static/js/ydui.js}"></script>
+
 <script>
+
     //限制PC设备和大屏设备访问  只能移动设备访问
     $(function () {
 
@@ -63,7 +65,6 @@
             window.location.replace("/error");
             return;
         }
-
         $('.btn-block').click(function () {
             if ($('.account').val() == "" || $('.password').val() == "") {
                 YDUI.dialog.toast('账号或者密码不能为空！', 'none', 2000);
@@ -77,12 +78,28 @@
                 userAccount: $('.account').val(),
                 userPassword: $('.password').val()
             };
-            //test
-            alert(JSON.stringify(user_form))
+            //785e9707067115a90d7432664959cb6b
+            //test {"userAccount":"1111","userPassword":"785e9707067115a90d7432664959cb6b"}
+            //alert(JSON.stringify(user_form))
+            YDUI.dialog.loading.open('注册中请稍后~');
+            $.post('/api_v1/sign_up',user_form,function(result){
+                //console.log(result);
+                switch (result.status) {
+                    case 200:
+                        setTimeout(function () {
+                            YDUI.dialog.loading.close();/* 移除loading */
+                            window.location.replace("/sign")
+                        }, 2000)
+                        break;
+                    case 500:
+                        YDUI.dialog.loading.close();
+                        YDUI.dialog.toast(result.message, 'none', 2000);
+                        break;
+                }
+            });
         })
+
     });
-
-
 </script>
 </body>
 </html>

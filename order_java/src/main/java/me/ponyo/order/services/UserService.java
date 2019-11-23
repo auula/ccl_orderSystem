@@ -6,9 +6,11 @@ import java.util.List;
 
 public interface UserService  {
 
-    int saveUser(UserInfo user);
+    int register(UserInfo user);
 
-    UserInfo findUserByAccountAndPassword(UserInfo user);
+    UserInfo login(UserInfo user);
+
+    UserInfo checkAccount(String account);
 
     List<UserInfo> findAllUser();
 }
