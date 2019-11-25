@@ -1,5 +1,6 @@
 package me.ponyo.order.services;
 
+import me.ponyo.order.models.ProductPicInfo;
 import me.ponyo.order.models.UserInfo;
 
 import java.util.List;
@@ -12,5 +13,5 @@ public interface UserService  {
 
     UserInfo checkAccount(String account);
 
-    List<UserInfo> findAllUser();
+
 }

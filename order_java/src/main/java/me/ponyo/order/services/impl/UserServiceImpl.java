@@ -1,6 +1,7 @@
 package me.ponyo.order.services.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import me.ponyo.order.models.ProductPicInfo;
 import me.ponyo.order.models.UserInfo;
 import me.ponyo.order.repositorys.UserRepository;
 import me.ponyo.order.services.UserService;
@@ -59,8 +60,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserInfoByAccount(account);
     }
 
-    @Override
-    public List<UserInfo> findAllUser() {
-        return null;
-    }
+
+
 }

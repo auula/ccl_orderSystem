@@ -1,6 +1,7 @@
 package me.ponyo.order.models;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class ProductInfo {
@@ -14,7 +15,7 @@ public class ProductInfo {
 
     private BigDecimal productMoney;
 
-    private Date createTime;
+    private Timestamp createTime;
 
     private String productDetails;
 
@@ -71,11 +72,11 @@ public class ProductInfo {
         this.productMoney = productMoney;
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 

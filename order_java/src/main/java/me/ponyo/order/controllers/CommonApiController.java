@@ -83,7 +83,7 @@ public class CommonApiController {
     }
 
     @GetMapping("/product")
-    public BaseResult putProduct() {
+    public BaseResult getProducts() {
         List<ProductInfo> allProductData = productService.getAllProductData();
 //        for (ProductInfo allProductDatum : allProductData) {
 //            log.info(allProductData.toString());

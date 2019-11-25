@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>商品详情</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- 引入YDUI样式 -->
+    <link rel="stylesheet" th:href="@{/static/css/ydui.css}"/>
+    <!-- 引入YDUI自适应解决方案类库 -->
+    <script th:src="@{/static/js/ydui.flexible.js}"></script>
+</head>
+<body>
+
+<section class="g-flexview" style="background-color: #FFFFFF;">
+
+    <!-- <header class="m-navbar">
+        <a href="#" class="navbar-item"><i class="back-ico"></i></a>
+        <div class="navbar-center"><span class="navbar-title">商品详情</span></div>
+    </header> -->
+
+    <div class="g-scrollview">
+        <div class="m-slider">
+            <!-- 参数在这里 -->
+            <div class="slider-wrapper">
+                <div class="slider-item" th:each="pic : ${p_pic}">
+                    <a href="#">
+                        <img th:src="${pic.getPicUrl()}">
+                    </a>
+                </div>
+            </div>
+            <div class="slider-pagination"></div><!-- 分页标识 -->
+        </div>
+        <div class="m-cell" style="margin-bottom: 5px">
+            <label class="cell-item">
+                <span class="cell-left">名称:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em
+                        th:text="${Products.getProductName()}"></em></span>
+                <label class="cell-right">
+                    <span class="badge badge-radius badge-warning"
+                          th:if="${new java.util.Date().getTime() - Products.getCreateTime().getTime() < 86400000L}">新 品</span>
+                </label>
+            </label>
+            <label class="cell-item">
+                <p class="cell-left">价格:&nbsp;&nbsp;&nbsp;&nbsp;<samp style="color: red;">￥<em
+                        th:text="${Products.getProductMoney()}"></em>/份</samp></p>
+                <label class="cell-right">
+                    <span class="badge badge-primary">自带一份米饭🍚</span>
+                </label>
+            </label>
+            <label class="cell-item" th:if="${Products.getProductName()} ne '无数据！'">
+                <p class="cell-left">商品数量:&nbsp;&nbsp;</p>
+                <label class="cell-right">
+                    <a href="javascript:;" class="addCart btn btn-danger">加 入 购 物 车</a>
+                    <span class="m-spinner" style=""
+                          data-ydui-spinner="{input: '.J_Input', add: '.J_Add', minus: '.J_Del'}">
+								<!-- 添加data-ydui-spinner属性并添加参数即可 -->
+								<a href="javascript:;" class="J_Del"></a>
+								<input type="text" class="J_Input" placeholder=""/>
+								<a href="javascript:;" class="J_Add"></a>
+							</span>
+                </label>
+            </label>
+        </div>
+        <div class="m-celltitle" style="">更多详情</div>
+        <div class="m-cell">
+            <div class="cell-item">
+                <div class="cell-right">
+                    <p class="cell-textarea" style="text-align: left;" th:text="${Products.getProductDetails()}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="m-tabbar" style="margin-bottom: 8px;">
+        <a href="#" class="tabbar-item tabbar-active">
+					<span class="tabbar-icon">
+						<i class="icon-order"></i>
+					</span>
+            <span class="tabbar-txt">菜单</span>
+        </a>
+        <a href="#" class="tabbar-item">
+					<span class="tabbar-icon">
+						<i class="icon-shopcart-outline"></i>
+					</span>
+            <span class="tabbar-txt">购物车</span>
+        </a>
+        <a href="#" class="tabbar-item">
+					<span class="tabbar-icon">
+						<i class="icon-ucenter-outline"></i>
+					</span>
+            <span class="tabbar-txt">个人中心</span>
+        </a>
+    </footer>
+</section>
+
+
+<!-- 引入jQuery 2.0+ -->
+<script th:src="@{/static/js/jquery.min.js}"></script>
+<!-- 引入YDUI脚本 -->
+<script th:src="@{/static/js/ydui.js}"></script>
+<script>
+
+    $(function () {
+        //view loading 完成就隐藏 spinner
+        $(".m-spinner").hide();
+        //当用户点击 加入购物车按钮 则显示spinner
+        $(".addCart").click(function () {
+            $(".addCart").hide();
+            $(".m-spinner").show();
+        });
+    })
+</script>
+</body>
+</html>

@@ -36,4 +36,5 @@ public interface UserRepository {
 
     List<UserInfo> findAllUserInfo();
 
+
 }
