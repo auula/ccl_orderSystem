@@ -97,16 +97,24 @@ public class CommonApiController {
     }
 
 
-    @RequestMapping("/shopCart/lists")
-    public BaseResult addShopCart(Long id, Integer count) {
-        if (id != null || count == null) {
+    @PostMapping("/shop_cart/common")
+    public BaseResult shopCart(String id,String number) {
+        if (Strings.isBlank(id) || Strings.isBlank(number)) {
             return  new BaseResult().build(500,"购物车参数传递失败!");
         }
-        Map<Long, ProductItem> shopCart = getProductItemMap(id, count);
+        Map<Long, ProductItem> shopCart = getProductItemMap(Long.valueOf(id),Integer.valueOf(number));
         BigDecimal totalMoney = getShopCartTotalMoney(shopCart);
         return new BaseResult().build(200, "success").add("shopCartList", shopCart).add("totalMoney",totalMoney);
     }
-
+    @GetMapping("/shop_cart/common")
+    public BaseResult shopCartList() {
+        Map<Long, ProductItem> shopCart = (Map<Long, ProductItem>) session.getAttribute("_shop");
+        if (shopCart == null) {
+            return  new BaseResult().build(500,"你的购物车空空如也~~");
+        }
+        BigDecimal totalMoney = getShopCartTotalMoney(shopCart);
+        return new BaseResult().build(200, "success").add("shopCartList", shopCart).add("totalMoney",totalMoney);
+    }
     private BigDecimal getShopCartTotalMoney(Map<Long, ProductItem> shopCart) {
         //计算购物车的总价 所有商品的总价
         BigDecimal totalMoney = new BigDecimal(0.0);
@@ -120,7 +128,7 @@ public class CommonApiController {
         return totalMoney;
     }
 
-    private Map<Long, ProductItem> getProductItemMap(Long id, Integer count) {
+    private Map<Long, ProductItem> getProductItemMap(Long id, Integer number) {
         //获取存储在session中的购物车
         Map<Long, ProductItem> shopCart = (Map<Long, ProductItem>) session.getAttribute("_shop");
         if (shopCart == null) {
@@ -131,7 +139,7 @@ public class CommonApiController {
         BigDecimal unitPrice = productService.getUnitPrice(id);
         //他会自动去重的
         if (unitPrice != null) { //这里判断商品是否为空  防止用户传过来的商品id是空的
-            shopCart.put(id, new ProductItem(id, count, unitPrice));
+            shopCart.put(id, new ProductItem(id, number, unitPrice));
         }
         session.setAttribute("_shop", shopCart);
         return shopCart;

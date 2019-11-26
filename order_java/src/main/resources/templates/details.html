@@ -52,10 +52,10 @@
             <label class="cell-item" th:if="${Products.getProductName()} ne '无数据！'">
                 <p class="cell-left">商品数量:&nbsp;&nbsp;</p>
                 <label class="cell-right">
-                    <a href="javascript:;" class="addCart btn btn-danger">加 入 购 物 车</a>
-                    <span class="m-spinner" id="J_Quantity" >
+                    <a href="javascript:init()" class="addCart btn btn-danger">加 入 购 物 车</a>
+                    <span class="m-spinner" id="J_Quantity">
                         <a href="javascript:;" class="J_Del"></a>
-                        <input  type="text" class="J_Input" value="1" placeholder=""/>
+                        <input type="text" class="J_Input" value="1" placeholder=""/>
                         <a href="javascript:;" class="J_Add"></a>
                     </span>
                 </label>
@@ -98,8 +98,8 @@
 <script th:src="@{/static/js/jquery.min.js}"></script>
 <!-- 引入YDUI脚本 -->
 <script th:src="@{/static/js/ydui.js}"></script>
-<script>
-
+<script type="text/javascript" th:inline="javascript">
+    var count = 0;
     $(function () {
         //view loading 完成就隐藏 spinner
         $(".m-spinner").hide();
@@ -108,24 +108,39 @@
             $(".addCart").hide();
             $(".m-spinner").show();
         });
-        $('.J_Input').blur(function () {
-            alert($('.J_Input').val())
-        })
-    })
+
+    });
+
+
+
     $('#J_Quantity').spinner({
         input: '.J_Input',
         add: '.J_Add',
         minus: '.J_Del',
-        unit:1,
+        unit: 1,
         max: 0,
         callback: function (value, $ele) {
-            // $ele 当前文本框[jQuery对象]
-            // $ele.css('background', '#FF5E53');
-            console.log('值：' + value);
+            const shop_form = {
+                "id": [[${Products.getProductId()}]],
+                "number": value
+            }
+            if (count >= 1) {//只要count大于才去添加
+                $.post("/api_v1/shop_cart/common", shop_form, function (result) {
+                    console.log(JSON.stringify(result))
+                })
+            }
+            ++count;//count作用是防止页面加载完成 程序就默认自动发送了一个商品添加请求
         }
     });
-    function ShopCart(count) {
 
+    function  init() {
+        const shop_form = {
+            "id": [[${Products.getProductId()}]],
+            "number": 1
+        }
+        $.post("/api_v1/shop_cart/common", shop_form, function (result) {
+            console.log(JSON.stringify(result))
+        })
     }
 </script>
 </body>
