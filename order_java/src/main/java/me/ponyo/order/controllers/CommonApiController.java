@@ -3,6 +3,7 @@ package me.ponyo.order.controllers;
 import lombok.extern.slf4j.Slf4j;
 import me.ponyo.order.models.BaseResult;
 import me.ponyo.order.models.ProductInfo;
+import me.ponyo.order.models.ProductItem;
 import me.ponyo.order.models.UserInfo;
 import me.ponyo.order.services.ProductService;
 import me.ponyo.order.services.UserService;
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * @ Author: Ding <br/>
@@ -30,6 +32,7 @@ import java.util.List;
 @RequestMapping(value = "/api_v1")
 public class CommonApiController {
 
+
     @Autowired
     UserService userService;
 
@@ -40,6 +43,7 @@ public class CommonApiController {
     HttpServletRequest request;
     @Autowired
     HttpSession session;
+
 
     @PostMapping(value = {"/sign_up"})
     public BaseResult userSignUp(UserInfo user) {
@@ -88,7 +92,66 @@ public class CommonApiController {
 //        for (ProductInfo allProductDatum : allProductData) {
 //            log.info(allProductData.toString());
 //        }
-        return  allProductData == null ? new BaseResult().build(500, "暂无商品数据~请稍后重试！") :
-                new BaseResult().build(200,"success").add("ProductList",allProductData);
+        return allProductData == null ? new BaseResult().build(500, "暂无商品数据~请稍后重试！") :
+                new BaseResult().build(200, "success").add("ProductList", allProductData);
     }
+
+
+    @RequestMapping("/shopCart/lists")
+    public BaseResult addShopCart(Long id, Integer count) {
+        if (id != null || count == null) {
+            return  new BaseResult().build(500,"购物车参数传递失败!");
+        }
+        Map<Long, ProductItem> shopCart = getProductItemMap(id, count);
+        BigDecimal totalMoney = getShopCartTotalMoney(shopCart);
+        return new BaseResult().build(200, "success").add("shopCartList", shopCart).add("totalMoney",totalMoney);
+    }
+
+    private BigDecimal getShopCartTotalMoney(Map<Long, ProductItem> shopCart) {
+        //计算购物车的总价 所有商品的总价
+        BigDecimal totalMoney = new BigDecimal(0.0);
+        for (Map.Entry<Long, ProductItem> ProductItemEntry : shopCart.entrySet()) {
+            /* 下面注释这样写是不对的 大坑  然后Google一下才明白
+             * 文章链接:https://blog.csdn.net/baidu_37107022/article/details/78632316
+             * totalMoney.add(ProductItemEntry.getValue().getTotalPrice());
+             */
+            totalMoney = totalMoney.add(ProductItemEntry.getValue().getTotalPrice());
+        }
+        return totalMoney;
+    }
+
+    private Map<Long, ProductItem> getProductItemMap(Long id, Integer count) {
+        //获取存储在session中的购物车
+        Map<Long, ProductItem> shopCart = (Map<Long, ProductItem>) session.getAttribute("_shop");
+        if (shopCart == null) {
+            //如果没有就直接创建一个
+            session.setAttribute("_shop", new LinkedHashMap<>());
+        }
+        shopCart = (Map<Long, ProductItem>) session.getAttribute("_shop");//从session中拿去购物车数据
+        BigDecimal unitPrice = productService.getUnitPrice(id);
+        //他会自动去重的
+        if (unitPrice != null) { //这里判断商品是否为空  防止用户传过来的商品id是空的
+            shopCart.put(id, new ProductItem(id, count, unitPrice));
+        }
+        session.setAttribute("_shop", shopCart);
+        return shopCart;
+    }
+
+//    @GetMapping("/add")
+//    public BaseResult addShopCart(Long id, Integer count) {
+//        //获取存储在session中的购物车
+//        Map<Long, Integer> shopCartlist = (Map<Long, Integer>) session.getAttribute("_shop");
+//        if (shopCartlist == null) {
+//            //如果没有就直接创建一个
+//            session.setAttribute("_shop", new LinkedHashMap<>());
+//        }
+//        //从session中拿去购物车数据
+//        shopCartlist = (Map<Long, Integer>) session.getAttribute("_shop");
+//        //他会自动去重的
+//        shopCartlist.put(id, count);
+//        session.setAttribute("_shop", shopCartlist);
+//        return new BaseResult().build(200, "success").add("shopCartList", shopCartlist);
+//    }
+
+
 }

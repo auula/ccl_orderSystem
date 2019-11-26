@@ -24,7 +24,7 @@
     <div class="g-scrollview">
         <article class="m-list list-theme1">
 <!--            <a th:each="p :${Products}" th:href="@{/view/details/(id=${p.getProductId()})}" class="list-item">-->
-            <a th:each="p :${Products}" th:href="@{/view/details/(${p.getProductId()})}" class="list-item">
+            <a th:each="p :${Products}" th:href="@{/view/details/{id}(id=${p.getProductId()})}" class="list-item">
                 <div class="list-img">
                     <img th:src="${p.getPicUrl()}">
                 </div>

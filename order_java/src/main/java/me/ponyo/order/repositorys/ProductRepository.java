@@ -5,6 +5,7 @@ import me.ponyo.order.models.ProductPicInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.math.BigDecimal;
 import java.util.List;
 @Mapper
 public interface ProductRepository {
@@ -19,4 +20,8 @@ public interface ProductRepository {
     //通过id查询商品pic信息
     @Select("SELECT * FROM order_sys.product_pic_info WHERE  product_id = #{productId} ")
     List<ProductPicInfo> findProductPicInfoByProductId(long productId);
+
+    //通过id查询单价
+    @Select("SELECT product_money FROM product_info WHERE  product_id = #{productId} ")
+    BigDecimal findProductMoneyByProductId(long productId);
 }

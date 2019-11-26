@@ -3,6 +3,7 @@ package me.ponyo.order.services;
 import me.ponyo.order.models.ProductInfo;
 import me.ponyo.order.models.ProductPicInfo;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -21,5 +22,7 @@ public interface ProductService {
 
     ProductInfo getOneDetailsDate(Long id);
 
+    BigDecimal getUnitPrice(Long id);
+    
     List<ProductPicInfo> getProductPicInfos(Long productId);
 }

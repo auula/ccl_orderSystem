@@ -34,7 +34,7 @@
             <div class="slider-pagination"></div><!-- 分页标识 -->
         </div>
         <div class="m-cell" style="margin-bottom: 5px">
-            <label class="cell-item">
+            <label class="cell-item" style="pointer-events: none;">
                 <span class="cell-left">名称:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em
                         th:text="${Products.getProductName()}"></em></span>
                 <label class="cell-right">
@@ -42,7 +42,7 @@
                           th:if="${new java.util.Date().getTime() - Products.getCreateTime().getTime() < 86400000L}">新 品</span>
                 </label>
             </label>
-            <label class="cell-item">
+            <label class="cell-item" style="pointer-events: none;">
                 <p class="cell-left">价格:&nbsp;&nbsp;&nbsp;&nbsp;<samp style="color: red;">￥<em
                         th:text="${Products.getProductMoney()}"></em>/份</samp></p>
                 <label class="cell-right">
@@ -53,13 +53,11 @@
                 <p class="cell-left">商品数量:&nbsp;&nbsp;</p>
                 <label class="cell-right">
                     <a href="javascript:;" class="addCart btn btn-danger">加 入 购 物 车</a>
-                    <span class="m-spinner" style=""
-                          data-ydui-spinner="{input: '.J_Input', add: '.J_Add', minus: '.J_Del'}">
-								<!-- 添加data-ydui-spinner属性并添加参数即可 -->
-								<a href="javascript:;" class="J_Del"></a>
-								<input type="text" class="J_Input" placeholder=""/>
-								<a href="javascript:;" class="J_Add"></a>
-							</span>
+                    <span class="m-spinner" id="J_Quantity" >
+                        <a href="javascript:;" class="J_Del"></a>
+                        <input  type="text" class="J_Input" value="1" placeholder=""/>
+                        <a href="javascript:;" class="J_Add"></a>
+                    </span>
                 </label>
             </label>
         </div>
@@ -73,7 +71,7 @@
         </div>
     </div>
 
-    <footer class="m-tabbar" style="margin-bottom: 8px;">
+    <footer class="m-tabbar" style="margin-bottom: 8px;" `>
         <a href="#" class="tabbar-item tabbar-active">
 					<span class="tabbar-icon">
 						<i class="icon-order"></i>
@@ -110,7 +108,25 @@
             $(".addCart").hide();
             $(".m-spinner").show();
         });
+        $('.J_Input').blur(function () {
+            alert($('.J_Input').val())
+        })
     })
+    $('#J_Quantity').spinner({
+        input: '.J_Input',
+        add: '.J_Add',
+        minus: '.J_Del',
+        unit:1,
+        max: 0,
+        callback: function (value, $ele) {
+            // $ele 当前文本框[jQuery对象]
+            // $ele.css('background', '#FF5E53');
+            console.log('值：' + value);
+        }
+    });
+    function ShopCart(count) {
+
+    }
 </script>
 </body>
 </html>

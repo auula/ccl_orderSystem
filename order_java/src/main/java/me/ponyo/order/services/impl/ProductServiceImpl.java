@@ -32,6 +32,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public BigDecimal getUnitPrice(Long id) {
+        if (id == null){
+            return BigDecimal.valueOf(0);
+        }
+        return productRepository.findProductMoneyByProductId(id);
+    }
+
+    @Override
     public ProductInfo getOneDetailsDate(Long id) {
         //防止为空
         if (id == null) {
