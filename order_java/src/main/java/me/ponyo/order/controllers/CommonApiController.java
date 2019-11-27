@@ -97,20 +97,25 @@ public class CommonApiController {
     }
 
 
-    @PostMapping("/shop_cart/common")
+    @PostMapping("/shop_cart/list")
     public BaseResult shopCart(String id,String number) {
         if (Strings.isBlank(id) || Strings.isBlank(number)) {
             return  new BaseResult().build(500,"购物车参数传递失败!");
         }
         Map<Long, ProductItem> shopCart = getProductItemMap(Long.valueOf(id),Integer.valueOf(number));
+        if (number.equals("0")) {
+            //数量等于0的时候删除商品
+            shopCart.remove(Long.valueOf(id));
+        }
         BigDecimal totalMoney = getShopCartTotalMoney(shopCart);
+        session.setAttribute("totalMoney",totalMoney);
         return new BaseResult().build(200, "success").add("shopCartList", shopCart).add("totalMoney",totalMoney);
     }
-    @GetMapping("/shop_cart/common")
+    @GetMapping("/shop_cart/lists")
     public BaseResult shopCartList() {
         Map<Long, ProductItem> shopCart = (Map<Long, ProductItem>) session.getAttribute("_shop");
         if (shopCart == null) {
-            return  new BaseResult().build(500,"你的购物车空空如也~~");
+            return  new BaseResult().build(400," <i class=\"icon-shopcart-outline\"></i>你的购物车空空如也");
         }
         BigDecimal totalMoney = getShopCartTotalMoney(shopCart);
         return new BaseResult().build(200, "success").add("shopCartList", shopCart).add("totalMoney",totalMoney);
@@ -136,10 +141,10 @@ public class CommonApiController {
             session.setAttribute("_shop", new LinkedHashMap<>());
         }
         shopCart = (Map<Long, ProductItem>) session.getAttribute("_shop");//从session中拿去购物车数据
-        BigDecimal unitPrice = productService.getUnitPrice(id);
+        ProductInfo productInfo = productService.getProductInfo(id);
         //他会自动去重的
-        if (unitPrice != null) { //这里判断商品是否为空  防止用户传过来的商品id是空的
-            shopCart.put(id, new ProductItem(id, number, unitPrice));
+        if (productInfo != null) { //这里判断商品是否为空  防止用户传过来的商品id是空的
+            shopCart.put(id, new ProductItem(id, number, productInfo));
         }
         session.setAttribute("_shop", shopCart);
         return shopCart;

@@ -1,5 +1,7 @@
 package me.ponyo.order.models;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 
 /**
@@ -11,27 +13,38 @@ import java.math.BigDecimal;
  * <a href="https://github.com/YooDing">Github Home Page</a>
  * </p>
  */
+
 public class ProductItem {
+
     private Long id;
+
     private Integer Number;
+
     private BigDecimal UnitPrice;
-
-    public BigDecimal getUnitPrice() {
-        return UnitPrice;
-    }
-
-    public void setUnitPrice(BigDecimal money) {
-        UnitPrice = money;
-    }
 
     private BigDecimal TotalPrice;
 
+    private String ProductName;
+
+    public ProductItem(Long id, Integer number,ProductInfo productInfo) {
+        this.id = id;//商品id
+        this.Number = number;//商品购买数量
+        this.UnitPrice = productInfo.getProductMoney();//商品单价
+        this.ProductName = productInfo.getProductName();//商品名字
+        this.TotalPrice = this.computeTotal();//计算商品价格总和
+    }
 
     public ProductItem(Long id, Integer number,BigDecimal money) {
+        this.id = id;//商品id
+        this.Number = number;//商品购买数量
+        this.UnitPrice = money;//商品单价
+        this.TotalPrice = this.computeTotal();//计算商品价格总和
+    }
+
+    public ProductItem(Long id, Integer number, String productName) {
         this.id = id;
-        this.Number = number;
-        this.UnitPrice = money;
-        this.TotalPrice = this.computeTotal();
+        Number = number;
+        ProductName = productName;
     }
 
     //计算单个产品总价
@@ -56,6 +69,14 @@ public class ProductItem {
         Number = number;
     }
 
+    public BigDecimal getUnitPrice() {
+        return UnitPrice;
+    }
+
+    public void setUnitPrice(BigDecimal unitPrice) {
+        UnitPrice = unitPrice;
+    }
+
     public BigDecimal getTotalPrice() {
         return TotalPrice;
     }
@@ -64,4 +85,11 @@ public class ProductItem {
         TotalPrice = totalPrice;
     }
 
+    public String getProductName() {
+        return ProductName;
+    }
+
+    public void setProductName(String productName) {
+        ProductName = productName;
+    }
 }

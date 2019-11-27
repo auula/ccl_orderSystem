@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>我的购物车</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <!-- 引入YDUI样式 -->
+    <link rel="stylesheet" th:href="@{/static/css/ydui.css}"/>
+    <!-- 引入YDUI自适应解决方案类库 -->
+    <script th:src="@{/static/js/ydui.flexible.js}"></script>
+</head>
+<body>
+
+<section class="g-flexview">
+
+    <p th:if="${isBlank}" class="message" style="text-align: center;margin: auto;font-size: 18px;">
+        <i class="icon-shopcart-outline"></i>
+        购物车空空如也~
+    </p>
+    <div th:if="!${isBlank}" class="g-scrollview">
+        <div class="m-cell">
+            <div class="cell-item" th:each="p :${productItems}">
+                <div class="cell-left"><span th:text="${p.getProductName()}"></span></div>
+                <label class="cell-right">
+                    <a  th:onclick="'javascript:DelProduct(\''+${p.getId()}+'\');'" class="addCart btn btn-danger">删 除</a>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div th:if="!${isBlank}" class="m-cell submit" style="margin-bottom: 0px;">
+        <label class="cell-item">
+            <p class="cell-left">合 计:&nbsp;&nbsp;￥<span th:text="${totalMoney}"></span></p>
+            <label class="cell-right">
+                <a href="javascript:;" class="addCart btn btn-danger">去 结 算</a>
+            </label>
+        </label>
+    </div>
+    <footer class="m-tabbar">
+        <a href="/view/menus" class="tabbar-item ">
+					<span class="tabbar-icon">
+						<i class="icon-order"></i>
+					</span>
+            <span class="tabbar-txt">菜单</span>
+        </a>
+        <a href="/view/shop_cart" class="tabbar-item tabbar-active">
+					<span class="tabbar-icon">
+						<i class="icon-shopcart-outline"></i>
+					</span>
+            <span class="tabbar-txt">购物车</span>
+        </a>
+        <a href="#" class="tabbar-item">
+					<span class="tabbar-icon">
+						<i class="icon-ucenter-outline"></i>
+					</span>
+            <span class="tabbar-txt">个人中心</span>
+        </a>
+    </footer>
+</section>
+<!-- 引入jQuery 2.0+ -->
+<script th:src="@{/static/js/jquery.min.js}"></script>
+<!-- 引入YDUI脚本 -->
+<script th:src="@{/static/js/ydui.js}"></script>
+<script>
+
+    function DelProduct(id) {
+        const shop_form = {
+            id : id,
+            number : 0
+        }
+        console.log(JSON.stringify(shop_form))
+        $.post("/api_v1/shop_cart/list", shop_form, function (result) {
+            console.log(JSON.stringify(result))
+        })
+    }
+
+</script>
+</body>
+</html>

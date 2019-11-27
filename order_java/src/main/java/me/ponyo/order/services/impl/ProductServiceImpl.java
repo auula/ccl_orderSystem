@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductInfo getOneDetailsDate(Long id) {
+    public ProductInfo getProductInfo(Long id) {
         //防止为空
         if (id == null) {
             id = 1L;

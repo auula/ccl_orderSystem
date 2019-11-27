@@ -20,7 +20,7 @@ public interface ProductService {
     //获取所有商品信息
     List<ProductInfo> getAllProductData();
 
-    ProductInfo getOneDetailsDate(Long id);
+    ProductInfo getProductInfo(Long id);
 
     BigDecimal getUnitPrice(Long id);
     
