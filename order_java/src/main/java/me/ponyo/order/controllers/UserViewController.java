@@ -76,6 +76,7 @@ public class UserViewController {
             }
             ui.addAttribute("productItems",productItems);
             ui.addAttribute("totalMoney",session.getAttribute("totalMoney"));
+            ui.addAttribute("isBlank",false);
         }
 
         return "shop_cart";

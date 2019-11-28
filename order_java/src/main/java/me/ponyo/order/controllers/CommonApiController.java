@@ -106,6 +106,12 @@ public class CommonApiController {
         if (number.equals("0")) {
             //数量等于0的时候删除商品
             shopCart.remove(Long.valueOf(id));
+            //这里当购物车map空的时候设置为空 原因是:防止前端页面当购物车没有数据还显示合计和结算
+            if(shopCart.size()==0){
+                shopCart = null;
+                session.setAttribute("_shop", shopCart);
+                return new BaseResult().build(200, "暂无商品数据~请稍后重试！");
+            }
         }
         BigDecimal totalMoney = getShopCartTotalMoney(shopCart);
         session.setAttribute("totalMoney",totalMoney);

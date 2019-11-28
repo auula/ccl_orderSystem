@@ -23,14 +23,9 @@
     <div th:if="!${isBlank}" class="g-scrollview">
         <div class="m-cell">
             <div class="cell-item" th:each="p :${productItems}">
-                <div class="cell-left"><span th:text="${p.getProductName()}"></span></div>
+                <div class="cell-left"><span th:text="${p.getProductName()} +'/'+${p.getNumber()+'份'}"></span></div>
                 <label class="cell-right">
-                    <span class="m-spinner" id="J_Quantity">
-                        <a th:οnclick="|javascript:J_Del(${p.getId()},${p.getNumber()})|" class="J_Del"></a>
-                        <input type="text" class="J_Input" th:value="${p.getNumber()}"  placeholder=""/>
-                        <a th:οnclick="|javascript:J_Add(${p.getId()},${p.getNumber()})|"  class="J_Add"></a>
-                    </span>
-                    <!-- <a  th:onclick="'javascript:DelProduct(\''+${p.getId()}+'\');'" class="addCart btn btn-danger">删 除</a>-->
+                    <a  th:onclick="|javascript:J_Del(${p.getId()})|" class="addCart btn btn-danger">删 除</a>
                 </label>
             </div>
         </div>
@@ -39,7 +34,7 @@
         <label class="cell-item">
             <p class="cell-left">合 计:&nbsp;&nbsp;￥<span th:text="${totalMoney}"></span></p>
             <label class="cell-right">
-                <a href="javascript:;" class="addCart btn btn-danger">去 结 算</a>
+                <a href="javascript:;" class="btn btn-primary">去 结 算</a>
             </label>
         </label>
     </div>
@@ -70,28 +65,17 @@
 <script th:src="@{/static/js/ydui.js}"></script>
 <script>
 
-    $('#J_Quantity').spinner({
-        input: '.J_Input',
-        add: '.J_Add',
-        minus: '.J_Del',
-        unit: 0,
-        max: 0
-    });
-    function J_Del(id,num) {
-        alert(id+num);
-    }
-    function J_Add(id,num) {
-        alert(id+num);
-    }
-    function sendData(id,num) {
+    function J_Del(id) {
         const shop_form = {
             id : id,
-            number : num
+            number : 0
         }
         $.post("/api_v1/shop_cart/list", shop_form, function (result) {
-            window.setTimeout(function () {
-                window.location.replace("/view/shop_cart")
-            },2000)
+           if (result.status == 200){
+               window.setTimeout(function () {
+                   window.location.replace("/view/shop_cart")
+               },2000)
+           }
         })
     }
 </script>
