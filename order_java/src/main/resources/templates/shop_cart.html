@@ -25,7 +25,12 @@
             <div class="cell-item" th:each="p :${productItems}">
                 <div class="cell-left"><span th:text="${p.getProductName()}"></span></div>
                 <label class="cell-right">
-                    <a  th:onclick="'javascript:DelProduct(\''+${p.getId()}+'\');'" class="addCart btn btn-danger">删 除</a>
+                    <span class="m-spinner" id="J_Quantity">
+                        <a th:οnclick="|javascript:J_Del(${p.getId()},${p.getNumber()})|" class="J_Del"></a>
+                        <input type="text" class="J_Input" th:value="${p.getNumber()}"  placeholder=""/>
+                        <a th:οnclick="|javascript:J_Add(${p.getId()},${p.getNumber()})|"  class="J_Add"></a>
+                    </span>
+                    <!-- <a  th:onclick="'javascript:DelProduct(\''+${p.getId()}+'\');'" class="addCart btn btn-danger">删 除</a>-->
                 </label>
             </div>
         </div>
@@ -65,17 +70,30 @@
 <script th:src="@{/static/js/ydui.js}"></script>
 <script>
 
-    function DelProduct(id) {
+    $('#J_Quantity').spinner({
+        input: '.J_Input',
+        add: '.J_Add',
+        minus: '.J_Del',
+        unit: 0,
+        max: 0
+    });
+    function J_Del(id,num) {
+        alert(id+num);
+    }
+    function J_Add(id,num) {
+        alert(id+num);
+    }
+    function sendData(id,num) {
         const shop_form = {
             id : id,
-            number : 0
+            number : num
         }
-        console.log(JSON.stringify(shop_form))
         $.post("/api_v1/shop_cart/list", shop_form, function (result) {
-            console.log(JSON.stringify(result))
+            window.setTimeout(function () {
+                window.location.replace("/view/shop_cart")
+            },2000)
         })
     }
-
 </script>
 </body>
 </html>
