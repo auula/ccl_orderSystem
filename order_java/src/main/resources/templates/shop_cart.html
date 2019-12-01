@@ -34,7 +34,7 @@
         <label class="cell-item">
             <p class="cell-left">合 计:&nbsp;&nbsp;￥<span th:text="${totalMoney}"></span></p>
             <label class="cell-right">
-                <a href="javascript:;" class="btn btn-primary">去 结 算</a>
+                <a href="javascript:checkOut();" class="btn btn-primary">去 结 算</a>
             </label>
         </label>
     </div>
@@ -77,6 +77,11 @@
                },2000)
            }
         })
+    }
+    function checkOut() {
+        $.post("/api_v1/checkOut",{},function (result) {
+            console.log(result)
+        });
     }
 </script>
 </body>

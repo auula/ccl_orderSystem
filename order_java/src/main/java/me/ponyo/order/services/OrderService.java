@@ -1,4 +1,7 @@
 package me.ponyo.order.services;
+
+import me.ponyo.order.models.OrderInfo;
+
 /**
  * @ Author: Ding <br/>
  * @ Version: V1.0
@@ -10,4 +13,5 @@ package me.ponyo.order.services;
  */
 public interface OrderService {
 
+    boolean saveOrder(OrderInfo orderInfo);
 }

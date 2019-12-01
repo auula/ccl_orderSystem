@@ -2,6 +2,9 @@ package me.ponyo.order.utils;
 
 import cn.hutool.crypto.digest.DigestUtil;
 
+import java.util.Random;
+import java.util.UUID;
+
 /**
  * @ Author: Ding <br/>
  * @ Version: V1.0
@@ -35,5 +38,9 @@ public class EncryptionUtil {
             return true;
         }
         return false;
+    }
+    //生成uuid
+    public static String randomStrUUID(){
+        return UUID.randomUUID().toString();
     }
 }

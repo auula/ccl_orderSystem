@@ -1,12 +1,11 @@
 package me.ponyo.order.controllers;
 
 import lombok.extern.slf4j.Slf4j;
-import me.ponyo.order.models.BaseResult;
-import me.ponyo.order.models.ProductInfo;
-import me.ponyo.order.models.ProductItem;
-import me.ponyo.order.models.UserInfo;
+import me.ponyo.order.models.*;
+import me.ponyo.order.services.OrderService;
 import me.ponyo.order.services.ProductService;
 import me.ponyo.order.services.UserService;
+import me.ponyo.order.utils.EncryptionUtil;
 import me.ponyo.order.utils.RuleUtil;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +40,9 @@ public class CommonApiController {
 
     @Autowired
     HttpServletRequest request;
+    @Autowired
+    OrderService orderService;
+
     @Autowired
     HttpSession session;
 
@@ -98,34 +100,36 @@ public class CommonApiController {
 
 
     @PostMapping("/shop_cart/list")
-    public BaseResult shopCart(String id,String number) {
+    public BaseResult shopCart(String id, String number) {
         if (Strings.isBlank(id) || Strings.isBlank(number)) {
-            return  new BaseResult().build(500,"购物车参数传递失败!");
+            return new BaseResult().build(500, "购物车参数传递失败!");
         }
-        Map<Long, ProductItem> shopCart = getProductItemMap(Long.valueOf(id),Integer.valueOf(number));
+        Map<Long, ProductItem> shopCart = getProductItemMap(Long.valueOf(id), Integer.valueOf(number));
         if (number.equals("0")) {
             //数量等于0的时候删除商品
             shopCart.remove(Long.valueOf(id));
             //这里当购物车map空的时候设置为空 原因是:防止前端页面当购物车没有数据还显示合计和结算
-            if(shopCart.size()==0){
+            if (shopCart.size() == 0) {
                 shopCart = null;
                 session.setAttribute("_shop", shopCart);
                 return new BaseResult().build(200, "暂无商品数据~请稍后重试！");
             }
         }
         BigDecimal totalMoney = getShopCartTotalMoney(shopCart);
-        session.setAttribute("totalMoney",totalMoney);
-        return new BaseResult().build(200, "success").add("shopCartList", shopCart).add("totalMoney",totalMoney);
+        session.setAttribute("totalMoney", totalMoney);
+        return new BaseResult().build(200, "success").add("shopCartList", shopCart).add("totalMoney", totalMoney);
     }
+
     @GetMapping("/shop_cart/lists")
     public BaseResult shopCartList() {
         Map<Long, ProductItem> shopCart = (Map<Long, ProductItem>) session.getAttribute("_shop");
         if (shopCart == null) {
-            return  new BaseResult().build(400," <i class=\"icon-shopcart-outline\"></i>你的购物车空空如也");
+            return new BaseResult().build(400, " <i class=\"icon-shopcart-outline\"></i>你的购物车空空如也");
         }
         BigDecimal totalMoney = getShopCartTotalMoney(shopCart);
-        return new BaseResult().build(200, "success").add("shopCartList", shopCart).add("totalMoney",totalMoney);
+        return new BaseResult().build(200, "success").add("shopCartList", shopCart).add("totalMoney", totalMoney);
     }
+
     private BigDecimal getShopCartTotalMoney(Map<Long, ProductItem> shopCart) {
         //计算购物车的总价 所有商品的总价
         BigDecimal totalMoney = new BigDecimal(0.0);
@@ -156,6 +160,17 @@ public class CommonApiController {
         return shopCart;
     }
 
+    //结算
+    @PostMapping(value = "/checkOut")
+    public BaseResult checkOut() {
+        Map<Long, ProductItem> shopCart = (Map<Long, ProductItem>) session.getAttribute("_shop");
+        if (shopCart == null) {
+            return new BaseResult().build(400, "你的购物车空空如也~");
+        }
+        String randomStrUUID = EncryptionUtil.randomStrUUID();
+        boolean b = orderService.saveOrder(new OrderInfo(randomStrUUID, "admin", (BigDecimal) session.getAttribute("totalMoney")));
+        return b ? new BaseResult().build(200,"下单成功!").add("order_code",randomStrUUID) : new BaseResult().build(500,"系统忙碌稍后重试~");
+    }
 //    @GetMapping("/add")
 //    public BaseResult addShopCart(Long id, Integer count) {
 //        //获取存储在session中的购物车
