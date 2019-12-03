@@ -1,20 +1,29 @@
 package me.ponyo.order.controllers;
 
+import com.github.hui.quick.plugin.qrcode.wrapper.QrCodeGenWrapper;
+import com.google.zxing.WriterException;
 import lombok.extern.slf4j.Slf4j;
 import me.ponyo.order.models.*;
 import me.ponyo.order.services.OrderService;
 import me.ponyo.order.services.ProductService;
 import me.ponyo.order.services.UserService;
 import me.ponyo.order.utils.EncryptionUtil;
+import me.ponyo.order.utils.JsonUtil;
 import me.ponyo.order.utils.RuleUtil;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @ Author: Ding <br/>
@@ -40,6 +49,10 @@ public class CommonApiController {
 
     @Autowired
     HttpServletRequest request;
+
+    @Autowired
+    HttpServletResponse response;
+
     @Autowired
     OrderService orderService;
 
@@ -167,10 +180,30 @@ public class CommonApiController {
         if (shopCart == null) {
             return new BaseResult().build(400, "你的购物车空空如也~");
         }
+        //生成订单id
         String randomStrUUID = EncryptionUtil.randomStrUUID();
         boolean b = orderService.saveOrder(new OrderInfo(randomStrUUID, "admin", (BigDecimal) session.getAttribute("totalMoney")));
-        return b ? new BaseResult().build(200,"下单成功!").add("order_code",randomStrUUID) : new BaseResult().build(500,"系统忙碌稍后重试~");
+        return b ? new BaseResult().build(200, "下单成功!").add("order_code", randomStrUUID) : new BaseResult().build(500, "系统忙碌稍后重试~");
     }
+
+    @GetMapping("/asQrCode")
+    public void asQrCode(@RequestParam String text) {
+        try {
+            String bg = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575379926054&di=26b026a7ab7687e7b0902673f683e964&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F7f9654674a2ef56a92b4e5813620312bc9c6330410c34-BGM4d0_fw658";
+            BufferedImage bufferedImage = QrCodeGenWrapper.of(text)
+                    .setBgImg(bg)
+                    .setW(500)
+                    .setBgOpacity(0.5f).asBufferedImage();
+            ImageIO.write(bufferedImage, "png", response.getOutputStream());
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            JsonUtil.outJson(response, new BaseResult().build(500, "生成二维码异常!"));
+        } catch (WriterException e) {
+            log.error(e.getMessage());
+            JsonUtil.outJson(response, new BaseResult().build(500, "二维码写出异常!"));
+        }
+    }
+
 //    @GetMapping("/add")
 //    public BaseResult addShopCart(Long id, Integer count) {
 //        //获取存储在session中的购物车

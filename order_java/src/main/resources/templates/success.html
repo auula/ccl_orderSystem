@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>CunCunLi Order</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <!-- 引入YDUI样式 -->
+    <link rel="stylesheet" th:href="@{/static/css/ydui.css}"/>
+    <!-- 引入YDUI自适应解决方案类库 -->
+    <script th:src="@{/static/js/ydui.flexible.js}"></script>
+
+</head>
+<body style="background-color: #FFFFFF;height: 80%;">
+<div class="m-cell" style="margin-top: 2.25rem;margin-bottom: 5%;">
+    <div class="cell-left">
+        <p style="margin: auto;font-size: 18px;">下单成功!请保存二维码方便取餐使用!</p>
+    </div>
+    <div class="cell-item">
+       <img style="margin: auto;width: 250px;height: 250px" th:src="@{/api_v1/asQrCode(text=${text})}">
+    </div>
+</div>
+<!-- 引入jQuery 2.0+ -->
+<script th:src="@{/static/js/jquery.min.js}"></script>
+<!-- 引入YDUI脚本 -->
+<script th:src="@{/static/js/ydui.js}"></script>
+<script>
+</script>
+</body>
+</html>
