@@ -6,6 +6,8 @@ import me.ponyo.order.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @ Author: Ding <br/>
  * @ Version: V1.0
@@ -20,6 +22,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderRepository orderRepository;
+
+    @Override
+    public List<OrderInfo> getOrderListByUserAccount(String Account) {
+        return orderRepository.findOrderListByUserAccount(Account);
+    }
 
     @Override
     public boolean saveOrder(OrderInfo orderInfo) {

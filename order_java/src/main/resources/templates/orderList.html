@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>点餐菜单</title>
+    <title>我的订单</title>
     <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
     <meta content="yes" name="apple-mobile-web-app-capable"/>
     <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
@@ -11,39 +11,33 @@
     <link rel="stylesheet" th:href="@{/static/css/ydui.css}"/>
     <!-- 引入YDUI自适应解决方案类库 -->
     <script th:src="@{/static/js/ydui.flexible.js}"></script>
+    <style>
+        .cell-item > .cell-left, cell-right {
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
 
 <section class="g-flexview" style="background-color: #FFFFFF;">
-
-    <!-- <header class="m-navbar">
-        <a href="#" class="navbar-item"><i class="back-ico"></i></a>
-        <div class="navbar-center"><span class="navbar-title">在售商品</span></div>
-    </header> -->
-
     <div class="g-scrollview">
-        <article class="m-list list-theme1">
-<!--            <a th:each="p :${Products}" th:href="@{/view/details/(id=${p.getProductId()})}" class="list-item">-->
-            <a th:each="p :${Products}" th:href="@{/view/details/{id}(id=${p.getProductId()})}" class="list-item">
-                <div class="list-img">
-                    <img th:src="${p.getPicUrl()}">
-                </div>
-                <div class="list-mes">
-                    <h3 th:textclass="list-title" th:text="${p.getProductName()}"></h3>
-                    <div class="list-mes-item">
-                        <div>
-                            <span class="list-price" th:text="${p.getProductMoney()}"><em>¥</em>34.7</span>
-                            <!-- <span class="list-del-price">¥45.65</span>-->
-                        </div>
-                        <div><span class="badge badge-radius badge-danger" th:if="${new java.util.Date().getTime() - p.getCreateTime().getTime() < 86400000L}">新品</span></div>
+        <article class="m-list list-theme4">
+            <div class="m-cell">
+                <div class="cell-item" th:each="ol :${orderList}">
+                    <div class="cell-left">订单号:<span th:text="${ol.getOrderNumber()}">&nbsp;708c6fc5-f360-4a0c-b003-58b70195d97f</span>
+                    </div>
+                    <div class="cell-right">
+                        <span th:if="${ol.getOrderStatus() == 2}" class="badge badge-radius badge-primary">已完成</span>
+                        <span th:if="${ol.getOrderStatus() == 0}" class="badge badge-radius badge-danger">被取消</span>
+                        <span th:if="${ol.getOrderStatus() == 1}" class="badge badge-radius badge-warning">未支付</span>
                     </div>
                 </div>
-            </a>
+            </div>
         </article>
     </div>
 
     <footer class="m-tabbar" style="margin-bottom: 8px;">
-        <a href="/view/menus" class="tabbar-item tabbar-active">
+        <a href="/view/menus" class="tabbar-item ">
 					<span class="tabbar-icon">
 						<i class="icon-order"></i>
 					</span>
@@ -55,7 +49,7 @@
 					</span>
             <span class="tabbar-txt">购物车</span>
         </a>
-        <a href="/view/about" class="tabbar-item">
+        <a href="/view/about" class="tabbar-item tabbar-active">
 					<span class="tabbar-icon">
 						<i class="icon-ucenter-outline"></i>
 					</span>

@@ -1,6 +1,7 @@
 package me.ponyo.order.repositorys;
 
 
+import me.ponyo.order.models.SysInfo;
 import me.ponyo.order.models.UserInfo;
 import org.apache.ibatis.annotations.*;
 
@@ -36,7 +37,8 @@ public interface UserRepository {
 
     List<UserInfo> findAllUserInfo();
 
-
+    @Select("SELECT * FROM sys_info ORDER BY id DESC limit 1")
+    SysInfo getSysInfo();
 
 
 }

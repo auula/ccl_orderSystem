@@ -5,7 +5,9 @@ import me.ponyo.order.models.BaseResult;
 import me.ponyo.order.models.ProductInfo;
 import me.ponyo.order.models.ProductItem;
 import me.ponyo.order.models.ProductPicInfo;
+import me.ponyo.order.services.OrderService;
 import me.ponyo.order.services.ProductService;
+import me.ponyo.order.services.UserService;
 import me.ponyo.order.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,11 +42,17 @@ public class UserViewController {
     ProductService productService;
 
     @Autowired
+    UserService userService;
+    @Autowired
+    OrderService orderService;
+
+    @Autowired
     HttpSession session;
 
 
     @Autowired
     HttpServletResponse response;
+
     //response goods list to browser
 
     @GetMapping(value = {"/menus", "/"})
@@ -98,5 +106,16 @@ public class UserViewController {
         ui.addAttribute("text", order_id);
         return "success";
     }
+    @GetMapping("/about")
+    public String about(Model ui) {
+        ui.addAttribute("sys",userService.getSysInfo());
+        ui.addAttribute("account","BinScholl@foxmail.com");
+        return "about";
+    }
 
+    @GetMapping("/orderList")
+    public String orderList(Model ui){
+        ui.addAttribute("orderList",orderService.getOrderListByUserAccount("admin"));
+        return "orderList";
+    }
 }

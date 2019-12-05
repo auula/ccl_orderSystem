@@ -25,6 +25,9 @@ public class OrderInfo {
         this.createTime = DateUtil.asDateToTimestamp();
     }
 
+    public OrderInfo() {
+    }
+
     public Long getOrderId() {
         return orderId;
     }

@@ -4,6 +4,9 @@ import me.ponyo.order.models.OrderInfo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * @ Author: Ding <br/>
@@ -19,4 +22,8 @@ public interface OrderRepository {
     @Options(useGeneratedKeys = true, keyProperty = "order_id")
     @Insert("INSERT INTO order_info(order_number,order_account,create_time,total_price) VALUES (#{orderNumber} ,#{orderAccount} ,#{createTime} ,#{totalPrice} )")
     int insertOrderInfo(OrderInfo orderInfo);
+
+
+    @Select("SELECT * FROM order_sys.order_info WHERE order_account = #{account} ")
+    List<OrderInfo> findOrderListByUserAccount(String account);
 }

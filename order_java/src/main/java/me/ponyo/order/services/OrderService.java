@@ -2,6 +2,8 @@ package me.ponyo.order.services;
 
 import me.ponyo.order.models.OrderInfo;
 
+import java.util.List;
+
 /**
  * @ Author: Ding <br/>
  * @ Version: V1.0
@@ -14,4 +16,6 @@ import me.ponyo.order.models.OrderInfo;
 public interface OrderService {
 
     boolean saveOrder(OrderInfo orderInfo);
+
+    List<OrderInfo> getOrderListByUserAccount(String Account);
 }
