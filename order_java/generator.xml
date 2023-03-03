@@ -12,7 +12,7 @@
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
         <!--数据库链接URL，用户名、密码 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://52.175.120.54:3306/order_sys" userId="order_sys" password="dev.12345678">
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://52.175.120.54:3306/order_sys" userId="order_sys" password="dev.12345678(虽然密码上传到GitHub了，但是数据库服务器设置了白名单IP)">
         </jdbcConnection>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
